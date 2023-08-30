@@ -37,30 +37,81 @@ export const ACMElements = ({ items }: { items: ACMElement[] }) => (
 		<table class="w-full my-6">
 			<thead class="border-b border-slate-500">
 				<tr>
-					<td class="pb-2">Nomor</td>
-					<td class="pb-2">Tipe</td>
-					<td class="pb-2">
+					<td class="p-2">
+						<div class="w-10">ID</div>
+					</td>
+					{/* <td class="p-2">Tipe</td> */}
+					<td width="80%" class="p-2">
 						<div class="flex gap-4">
 							<span class="flex--grow">Nama Element</span>
 							<span>({items.length})</span>
 						</div>
 					</td>
-					<td class="pb-2">Tipe</td>
+					<td class="pb-2">
+						<div class="w-24">Tool</div>
+					</td>
 				</tr>
 			</thead>
-			<tbody>
-				{items.map((elm) => (
-					<tr class="border-b border-slate-300">
-						<td class="p-2">{elm.id}</td>
-						<td class="text-slate-500 p-2">{elm.type}</td>
-						<td class="p-2">{elm.name}</td>
-						<td class="text-slate-500 uppercase p-2">{elm.tool}</td>
-					</tr>
-				))}
-			</tbody>
+			{items.map((elm) => (
+				<tbody>
+					<ElementItem target={`/htmx/element-with-evidences/${elm.id}`} item={elm} />
+				</tbody>
+			))}
 		</table>
 		{/* <div class="h-[300px]"></div> */}
 	</div>
+);
+
+export const ElementItem = ({ item, target }: { item: ACMElement, target: string }) => (
+	<tr
+		class="border-b border-slate-300 cursor-pointer"
+		hx-get={target}
+		hx-target="closest tbody"
+		hx-swap="outerHTML"
+	>
+		<td class="p-2">{item.id}</td>
+		<td class="p-2">{item.name}</td>
+		<td class="text-slate-500 break-keep uppercase p-2">CASE-COG</td>
+	</tr>
+);
+
+export const ElementEvidences = ({ items }: { items: ACMEvidence[] }) => (
+	<tr class="border-b border-slate-300 bg-slate-50">
+		<td class="p-2"></td>
+		<td colspan="2" class="px-2 py-3">
+			<div class="flex flex-col gap-2">
+				{items.map((ev) => (
+					<p class="text-sm">
+						<span class="font-semibold">{ev.name}: </span>
+						<span class="">{ev.definition}</span>
+					</p>
+				))}
+			</div>
+		</td>
+	</tr>
+);
+
+export const __ElementDetails = ({ item, details }: { item: ACMElement; details: ACMEvidence[] }) => (
+	<tbody>
+		<tr class="border-b border-slate-300 cursor-pointer">
+			<td class="p-2">{item.id}</td>
+			<td class="p-2">{item.name}</td>
+			<td class="text-slate-500 break-keep uppercase p-2">CASE-COG</td>
+		</tr>
+		<tr class="border-b border-slate-300 bg-slate-50">
+			<td class="p-2"></td>
+			<td colspan="2" class="p-2">
+				<div class="flex flex-col gap-1">
+					{details.map((ev) => (
+						<p class="text-sm">
+							<span class="font-semibold">{ev.name}: </span>
+							<span class="">{ev.definition}</span>
+						</p>
+					))}
+				</div>
+			</td>
+		</tr>
+	</tbody>
 );
 
 export const ACMForm = () => (

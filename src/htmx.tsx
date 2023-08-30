@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { ulidFactory } from "ulid-workers";
-import { ACMDomains, ACMElements, ACMForm, ACMHome, AddCompetenceButton, AddCompetenceForm, BookForm, Books } from "./components/acm";
+import { ACMDomains, ACMElements, ACMForm, ACMHome, AddCompetenceButton, AddCompetenceForm, BookForm, ElementEvidences, ElementItem } from "./components/acm";
 import { AddAspectButton, AddAspectForm, CompetenceIndicators, CompetenceIndicatorsForm, DeleteableCompetenceIndicator } from "./components/competence";
 import { DeleteableLevelIndicator, LevelIndicators, LevelIndicatorsForm } from "./components/level";
 import { ItemDefinition, ItemDefinitionForm, ItemName, ItemNameForm } from "./components/shared";
@@ -18,7 +18,7 @@ const htmx = new Hono<{ Bindings: Env }>();
 
 htmx.get('/elements/:domain?', async (c) => {
 	const domain = (c.req.param('domain') || 'EMO') as ACMDomain;
-	const sql = 'SELECT * FROM acm_elements WHERE domain=?';
+	const sql = `SELECT * FROM acm_elements WHERE type is not 'generic' AND domain=?`;
 	const { results } = await c.env.DB.prepare(sql).bind(domain).all();
 	return c.html(
 		<div id="main" class="mb-[300px]">
@@ -27,6 +27,37 @@ htmx.get('/elements/:domain?', async (c) => {
 		</div>
 	);
 })
+
+htmx.get('/element-item/:element_id', async (c) => {
+	const element_id = c.req.param('element_id');
+	const sql = 'SELECT * FROM acm_elements WHERE id=?';
+	const item = await c.env.DB.prepare(sql).bind(element_id).first();
+	return c.html(
+		<tbody>
+			<ElementItem target={`/htmx/element-with-evidences/${element_id}`} item={item as ACMElement} />
+		</tbody>
+	);
+});
+
+htmx.get('/element-with-evidences/:element_id', async (c) => {
+	const element_id = c.req.param('element_id');
+	const sql1 = 'SELECT * FROM acm_elements WHERE id=?';
+	const sql2 = 'SELECT * FROM acm_evidences WHERE element_id=?';
+	const rs = await c.env.DB.batch([
+		c.env.DB.prepare(sql1).bind(element_id),
+		c.env.DB.prepare(sql2).bind(element_id),
+	])
+	// return c.json({
+	// 	elm: rs[0].results[0],
+	// 	evs: rs[1].results,
+	// })
+	return c.html(
+		<tbody>
+			<ElementItem target={`/htmx/element-item/${element_id}`} item={rs[0].results[0] as ACMElement} />
+			<ElementEvidences items={rs[1].results as ACMEvidence[]} />
+		</tbody>
+	);
+});
 
 // Books
 

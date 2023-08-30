@@ -36,6 +36,15 @@ type ACMElement = {
 	updated?: string,
 }
 
+type ACMEvidence = {
+	id: number,
+	element_id: number,
+	name: string,
+	definition: string,
+	created?: string,
+	updated?: string,
+}
+
 type CompetenceBook = {
 	id: string;
 	title: string;

@@ -21,7 +21,7 @@ export const ACMDomains = ({ value }:{ value: ACMDomain }) => (
 	<div class="flex flex-wrap gap-2">
 		{Domains.map((d) => (
 			<button
-				class={d == value ? 'bg-gray-600 text-white px-2' : 'bg-gray-100 border border-slate-300 px-2'}
+				class={d == value ? 'bg-gray-600 border border-gray-800 text-white px-2' : 'bg-gray-100 border border-slate-400 px-2'}
 				hx-get={`/htmx/elements/${d}`}
 				hx-target="#main"
 				hx-swap="innerHTML"
@@ -35,7 +35,7 @@ export const ACMDomains = ({ value }:{ value: ACMDomain }) => (
 export const ACMElements = ({ items }: { items: ACMElement[] }) => (
 	<div>
 		<table class="w-full my-6">
-			<thead class="border-b border-slate-500">
+			<thead class="bg-slate-100 border-b border-slate-500 font-semibold">
 				<tr>
 					<td class="p-2">
 						<div class="w-10">ID</div>
@@ -47,8 +47,8 @@ export const ACMElements = ({ items }: { items: ACMElement[] }) => (
 							<span>({items.length})</span>
 						</div>
 					</td>
-					<td class="pb-2">
-						<div class="w-24">Tool</div>
+					<td class="p-2">
+						<div class="w-28">Tool</div>
 					</td>
 				</tr>
 			</thead>
@@ -71,7 +71,7 @@ export const ElementItem = ({ item, target }: { item: ACMElement, target: string
 	>
 		<td class="p-2">{item.id}</td>
 		<td class="p-2">{item.name}</td>
-		<td class="text-slate-500 break-keep uppercase p-2">CASE-COG</td>
+		<td class="text-slate-500 break-keep uppercase p-2">{item.tool}</td>
 	</tr>
 );
 

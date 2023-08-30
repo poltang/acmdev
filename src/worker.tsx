@@ -54,7 +54,7 @@ app.get('/acm', async (c) => {
 
 app.get('/acm/elements/:domain?', async (c) => {
 	const domain = (c.req.param('domain') || 'EMO') as ACMDomain;
-	const sql = 'SELECT * FROM acm_elements WHERE domain=?';
+	const sql = `SELECT * FROM acm_elements WHERE type is not 'generic' AND domain=?`;
 	const { results } = await c.env.DB.prepare(sql).bind(domain).all();
 	return c.html(
 		<Layout>

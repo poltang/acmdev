@@ -88,19 +88,19 @@ export const DeleteableCompetenceIndicator = ({ id, value }: { id: number; value
 
 export const AddAspectButton = ({ competence_id }: { competence_id: string }) => (
 	<form
-		class="rounded border text-center p-3 m-0"
+		class="rounded border border-slate-400 text-center p-3 m-0"
 		hx-get={`/htmx/add-aspect-form/${competence_id}`}
 		hx-target="this"
 		hx-swap="outerHTML"
 	>
-		<button class="py-[7px]">Add New Aspect</button>
+		<button class="w-full py-[7px]">Add New Aspect</button>
 	</form>
 );
 
 export const AddAspectForm = ({ competence_id }: { competence_id: string }) => (
 	<form
 		id="AddCompetenceForm"
-		class="flex gap-2 rounded border p-3 m-0"
+		class="flex gap-2 rounded border border-slate-400 p-3 m-0"
 		hx-post={`/htmx/competence-aspects`}
 		hx-target="#competence-aspects"
 		hx-swap="beforeend"
@@ -108,8 +108,8 @@ export const AddAspectForm = ({ competence_id }: { competence_id: string }) => (
 	>
 		<input type="hidden" name="competence_id" value={competence_id} />
 		<input type="text" name="name" autofocus class="flex-grow py-[7px]" />
-		<button class="border px-4">Add</button>
-		<button class="border px-4" hx-get={`/htmx/add-aspect-button/${competence_id}`} hx-target="closest form" hx-swap="outerHTML">
+		<button class="border border-slate-400 px-4">Add</button>
+		<button class="border border-slate-400 px-4" hx-get={`/htmx/add-aspect-button/${competence_id}`} hx-target="closest form" hx-swap="outerHTML">
 			Cancel
 		</button>
 	</form>

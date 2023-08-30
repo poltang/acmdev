@@ -470,8 +470,10 @@ htmx.put('/aspect-name/:id', async (c) => {
 
 htmx.get('/aspect-elements/:aspect_id', async (c) => {
 	const id = c.req.param('aspect_id');
-	const rs = await c.env.DB.prepare('SELECT * FROM acm_aspect_elements WHERE aspect_id=?').bind(id).all();
-	// if (rs.results.length == 0) return c.html(<p class="p-8">KOSONG</p>);
+	// const rs = await c.env.DB.prepare('SELECT * FROM acm_aspect_elements WHERE aspect_id=?').bind(id).all();
+	const sql = 'SELECT e.tool, a.* FROM acm_aspect_elements a LEFT JOIN acm_elements e ON a.element_id=e.id WHERE a.aspect_id=?';
+	const rs = await c.env.DB.prepare(sql).bind(id).all();
+	console.log(rs.results)
 	return c.html(<AspectElements id={id} items={rs.results as AspectElement[]} />);
 });
 

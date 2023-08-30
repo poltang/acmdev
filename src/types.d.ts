@@ -76,6 +76,7 @@ type AspectElement = {
 	aspect_id: string;
 	element_id: string;
 	name: string;
+	tool: string;
 }
 
 type CompetenceIndicator = {

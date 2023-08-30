@@ -38,6 +38,7 @@ export const AspectElements = ({ id, items }: { id: string; items: AspectElement
 const AspectElementItem = ({ item }: { item: AspectElement }) => (
 	<p class="leading-tight ml-10">
 		<span class="block w-[32px] float-left -ml-10 mt-[2px] text-center text-xs rounded-sm bg-gray-600 text-white">{item.element_id}</span>
+		<span class="block float-right text-xs text-orange-500 uppercase">{item.tool}</span>
 		<span>{item.name}</span>
 	</p>
 );
@@ -68,7 +69,7 @@ export const AddAspectElement = ({ id }: { id: string }) => (
 			hx-swap="beforeend"
 			_="on htmx:afterRequest reset() me"
 		>
-			<input type="number" name="element_id" min="1" max="151" autofocus placeholder="1 - 151" class="w-full py-[6px]" />
+			<input type="number" name="element_id" min="1" max="159" autofocus placeholder="1 - 159, bukan Generic Element" class="w-full py-[6px]" />
 		</form>
 	</div>
 );

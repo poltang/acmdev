@@ -1,0 +1,12 @@
+name = "acmdev"
+main = "src/worker.tsx"
+compatibility_date = "2023-08-21"
+
+[site]
+bucket = "./assets"
+
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "acm-dev"
+database_id = "ec073315-2fce-49b7-8922-b90a071bf482"
+preview_database_id = "ec073315-2fce-49b7-8922-b90a071bf482"
